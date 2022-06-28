@@ -264,6 +264,11 @@ namespace TutorialCs
 
 			} while (action != 'q');
 
+			if(pSupplies != null)
+				pSupplies.Dispose();
+			if(pInventory != null)
+				pInventory.Dispose();
+
 			uninit(pDomain, ulStorageId);
 		}
 	}

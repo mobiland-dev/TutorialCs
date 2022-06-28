@@ -41,6 +41,8 @@ namespace TutorialCs
 			{
 				Console.WriteLine("Domain failed to execute the transaction (0x{0:x})", hRes);
 			}
+
+			pShopArticle.Dispose();
 		}
 	}
 }

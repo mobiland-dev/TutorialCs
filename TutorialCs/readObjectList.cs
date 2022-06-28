@@ -46,6 +46,9 @@ namespace TutorialCs
 						Console.WriteLine("LinkIndex: {0} || Article: {1}x {2}", i, usCount, strArticleName);
 					}
 				}
+
+				for (UInt32 i = 0; i < pList.GetLength(); i++)
+					apArticle[i].Dispose();
 			}
 			else
 				Console.WriteLine("Cannot read article list (0x{0:x}))", hRes);
