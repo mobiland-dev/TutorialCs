@@ -22,7 +22,7 @@ namespace TutorialCs
 			pResponsible.SetComment(input2);
 
 			// set objectlink
-			pInventory.LinkResponsible(pResponsible);
+			pInventory.LinkManager(pResponsible);
 
 			// Store
 			pResponsible.Store(Transaction.Store);  // new object

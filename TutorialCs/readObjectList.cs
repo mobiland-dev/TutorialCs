@@ -20,7 +20,7 @@ namespace TutorialCs
 					pList.Get(i, out pItem);
 
 					// Open
-					WShopArticle.Open(out apArticle[i], pItem.ShopArticle.oiObjectId, pInventory, Transaction.Load);
+					WShopArticle.Open(out apArticle[i], pItem.Article.oiObjectId, pInventory, Transaction.Load);
 
 					// Load
 					apArticle[i].Load(_WShopArticle.ALL_ATTRIBUTES, Transaction.Load);

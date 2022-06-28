@@ -11,7 +11,7 @@ namespace TutorialCs
 
 			// Open
 			WResponsible pResponsible;
-			if (0 > (hRes = pInventory.OpenResponsible(out pResponsible, Transaction.Load)))
+			if (0 > (hRes = pInventory.OpenManager(out pResponsible, Transaction.Load)))
 			{
 				// Load
 				pResponsible.Load(_WResponsible.ALL_ATTRIBUTES, Transaction.Load);

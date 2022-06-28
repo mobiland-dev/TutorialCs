@@ -27,7 +27,7 @@ namespace TutorialCs
             }
 
 			WShopArticle pArticle;
-			WShopArticle.Open(out pArticle, pOldItem.ShopArticle.oiObjectId, pInventory, Transaction.Load);
+			WShopArticle.Open(out pArticle, pOldItem.Article.oiObjectId, pInventory, Transaction.Load);
 
 			// Load
 			pArticle.Load(_WShopArticle.ALL_ATTRIBUTES, Transaction.Load);

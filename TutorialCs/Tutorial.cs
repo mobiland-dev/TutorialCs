@@ -9,7 +9,7 @@ namespace TutorialCs
 {
 	partial class Tutorial
 	{
-		static readonly Guid guidEntryPoint = new Guid("{C99E6429-0511-4134-83D1-C7646A0AF313}");
+		static readonly Guid guidEntryPoint = new Guid("{71E456A5-6A4E-46aa-A727-105D584C7917}");
 
 		static void Main(string[] args)
 		{
@@ -39,8 +39,9 @@ namespace TutorialCs
 
             do
             {
-				Console.WriteLine("\n 1: create new Supplies object\n 2: open existing Supplies object\n\n 3: create new Inventory object\n 4: extend Supplies object to Inventory object\n 5: open existing Inventory object\n\nselect action: ");
-				action = (int)Console.ReadKey().KeyChar;
+				Console.WriteLine("\nselect function:\n  1: create new Supplies object\n  2: open existing Supplies object\n\n  3: create new Inventory object\n  4: extend Supplies object to Inventory object\n  5: open existing Inventory object\n");
+
+				action = (int)Console.ReadKey(true).KeyChar;
 
 				switch(action)
                 {
@@ -49,6 +50,18 @@ namespace TutorialCs
 						WSupplies.Create(out pSupplies, pDomain);
 
 						pDomain.InsertNamedObject(pSupplies.BuildLink(true), guidEntryPoint, "basic entry point", Transaction.Store);
+
+						// Store
+						pSupplies.Store(Transaction.Store);
+
+						// Execute
+						int hRes;
+						if(0 > (hRes = pDomain.Execute(Transaction.Store)))
+						{
+							Console.WriteLine("Domain failed to execute the transaction (0x{0:x})", hRes);
+
+							pSupplies = null;
+						}
 					}
 					break;
 
@@ -84,6 +97,19 @@ namespace TutorialCs
 						pDomain.InsertNamedObject(pInventory.BuildLink(true), guidEntryPoint, "extended entry point", Transaction.Store);
 
 						pSupplies = WSupplies.CastTo(pInventory);
+
+						// Store
+						pInventory.Store(Transaction.Store);
+
+						// Execute
+						int hRes;
+						if(0 > (hRes = pDomain.Execute(Transaction.Store)))
+						{
+							Console.WriteLine("Domain failed to execute the transaction (0x{0:x})", hRes);
+
+							pInventory = null;
+							pSupplies = null;
+						}
                     }
 					break;
 
@@ -99,6 +125,7 @@ namespace TutorialCs
 							else if(WSupplies.IsOfType(apSuppliesLink[0]))
 							{
 								WSupplies.Open(out pSupplies, apSuppliesLink[0].oiObjectId, pDomain, Transaction.Load);
+								pSupplies.Load(_WSupplies.ALL_ATTRIBUTES, Transaction.Load);
 
 								if(0 > pDomain.Execute(Transaction.Load))
 								{
@@ -110,6 +137,19 @@ namespace TutorialCs
 								WInventory.Extend(out pInventory, pSupplies);
 
 								pDomain.InsertNamedObject(pInventory.BuildLink(true), guidEntryPoint, "updated entry point", Transaction.Store);
+
+								// Store
+								pInventory.Store(Transaction.Store);
+
+								// Execute
+								int hRes;
+								if(0 > (hRes = pDomain.Execute(Transaction.Store)))
+								{
+									Console.WriteLine("Domain failed to execute the transaction (0x{0:x})", hRes);
+
+									pInventory = null;
+									pSupplies = null;
+								}
 							}
 							else
 								Console.WriteLine("Object is not of type WSupplies");
@@ -155,8 +195,18 @@ namespace TutorialCs
 
 			do
 			{
-				Console.WriteLine("select function:\n  1: writeAttributes\n  2: readAttribute\n  3: writeList\n  4: readList\n  5: writeObject\n  6: readObject\n  7: writeObjectList\n  8: readObjectList\n  9: modifyObjectInList\n  q: quit\n");
-				action = (int)Console.ReadKey().KeyChar;
+				if(pInventory == null)
+					Console.WriteLine("\nselect function:\n  1: writeAttributes\n  2: readAttribute\n  3: writeList\n  4: readList\n  q: quit\n");
+				else
+					Console.WriteLine("\nselect function:\n  1: writeAttributes\n  2: readAttribute\n  3: writeList\n  4: readList\n  5: writeObject\n  6: readObject\n  7: writeObjectList\n  8: readObjectList\n  9: modifyObjectInList\n  q: quit\n");
+
+				action = (int)Console.ReadKey(true).KeyChar;
+
+				if(pInventory == null)
+				{
+					if((action >= '5') && (action <= '9'))
+						action = 0;
+				}
 
 				switch(action)
 				{

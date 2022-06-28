@@ -15,7 +15,10 @@ namespace TutorialCs
 
 			// disconnect from server
 			pDomain.DisconnectAll();
-			
+
+			// give more time for cleanup (prevents false error messages from the debugger)
+			System.Threading.Thread.Sleep(400);
+
 			// delete domain object
 			pDomain.Uninitialize();
 			WDomain.Destroy(pDomain);
