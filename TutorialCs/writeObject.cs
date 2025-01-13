@@ -1,5 +1,5 @@
 ﻿using System;
-using DataFoundationAccess;
+using DataFSAccess;
 
 namespace TutorialCs
 {
@@ -9,7 +9,7 @@ namespace TutorialCs
 		{
 			// create object
 			WResponsible pResponsible;
-			WResponsible.Create(out pResponsible, pInventory);
+			WResponsible.Create(out pResponsible, pInventory.GetObject());
 
 			// FullName
 			Console.WriteLine("Full name:");
@@ -30,7 +30,7 @@ namespace TutorialCs
 
 			// Execute
 			int hRes;
-			if(0 > (hRes = pInventory.GetDomain().Execute(Transaction.Store)))
+			if(0 > (hRes = pInventory.GetDomain().Execute(Transaction.Store, null)))
 			{
 				Console.WriteLine("Domain failed to execute the transaction (0x{0:x})", hRes);
 			}

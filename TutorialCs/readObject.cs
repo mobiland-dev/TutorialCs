@@ -1,5 +1,5 @@
 ﻿using System;
-using DataFoundationAccess;
+using DataFSAccess;
 
 namespace TutorialCs
 {
@@ -11,13 +11,13 @@ namespace TutorialCs
 
 			// Open
 			WResponsible pResponsible;
-			if (0 > (hRes = pInventory.OpenManager(out pResponsible, Transaction.Load)))
+			if (0 > (hRes = pInventory.OpenManager(out pResponsible, 0, Transaction.Load)))
 			{
 				// Load
 				pResponsible.Load(_WResponsible.ALL_ATTRIBUTES, Transaction.Load);
 
 				// Execute
-				if (0 > (hRes = pResponsible.GetDomain().Execute(Transaction.Load)))
+				if (0 > (hRes = pResponsible.GetDomain().Execute(Transaction.Load, null)))
 				{
 					Console.WriteLine("Domain failed to execute the transaction (0x{0:x})", hRes);
 				}

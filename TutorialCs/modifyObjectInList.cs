@@ -1,5 +1,5 @@
 ﻿using System;
-using DataFoundationAccess;
+using DataFSAccess;
 
 namespace TutorialCs
 {
@@ -27,13 +27,13 @@ namespace TutorialCs
             }
 
 			WShopArticle pArticle;
-			WShopArticle.Open(out pArticle, pOldItem.Article.oiObjectId, pInventory, Transaction.Load);
+			WShopArticle.Open(out pArticle, pInventory.GetObject(), pOldItem.Article.oiObjectId, 0, Transaction.Load);
 
 			// Load
 			pArticle.Load(_WShopArticle.ALL_ATTRIBUTES, Transaction.Load);
 		
 			// Execute
-			if(0 > (hRes = pInventory.GetDomain().Execute(Transaction.Load)))
+			if(0 > (hRes = pInventory.GetDomain().Execute(Transaction.Load, null)))
 			{
 				Console.WriteLine("Domain failed to execute the transaction (0x{0:x})", hRes);
 			}
@@ -53,7 +53,7 @@ namespace TutorialCs
 				pArticle.Store(Transaction.Store);
 
 				// Execute
-				if(0 > (hRes = pInventory.GetDomain().Execute(Transaction.Store)))
+				if(0 > (hRes = pInventory.GetDomain().Execute(Transaction.Store, null)))
 				{
 					Console.WriteLine("Domain failed to execute the transaction (0x{0:x})", hRes);
 				}

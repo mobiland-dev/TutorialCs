@@ -1,5 +1,5 @@
 ﻿using System;
-using DataFoundationAccess;
+using DataFSAccess;
 
 namespace TutorialCs
 {
@@ -7,18 +7,24 @@ namespace TutorialCs
 	{
 		public static void uninit(WDomain pDomain, UInt32 ulStorageId)
 		{
+			Connection pConnection = pDomain.GetConnection();
+
 			// unbind from schema
 			AccessDefinition.Unbind();
-
-			// disconnect from storage
-			pDomain.ReleaseStorage(ulStorageId);
-
-			// disconnect from server
-			pDomain.DisconnectAll();
 
 			// delete domain object
 			pDomain.Uninitialize();
 			WDomain.Destroy(pDomain);
+
+			// disconnect from storage
+			pConnection.ReleaseStorage(ulStorageId);
+
+			// disconnect from server
+			pConnection.DisconnectAll();
+
+			// delete connection object
+			pConnection.Uninitialize();
+			Connection.Destroy(pConnection);
 
 			// uninitialize thread and free libraries
 			ThreadInit.UninitializeThread();
