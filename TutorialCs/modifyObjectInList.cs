@@ -17,14 +17,14 @@ namespace TutorialCs
 			{
 				Console.WriteLine("Cannot read article list (0x{0:x})", hRes);
 				return;
-            }
+			}
 			
 			ArticleListItem pOldItem;
 			if(0 != (hRes = pList.Get(indexInput, out pOldItem)))
-            {
+			{
 				Console.WriteLine("There is no article with this index");
 				return;
-            }
+			}
 
 			WShopArticle pArticle;
 			WShopArticle.Open(out pArticle, pInventory.GetObject(), pOldItem.Article.oiObjectId, 0, Transaction.Load);
